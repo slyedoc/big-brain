@@ -22,7 +22,7 @@ Picker that chooses the first `Choice` with a [`Score`] higher than its configur
 
 ```no_run
 Thinker::build()
-    .picker(FirstToScore::new(.8))
+    .picker(FirstToScore::new(0.8))
     // .when(...)
 ```
  */

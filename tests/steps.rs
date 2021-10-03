@@ -4,17 +4,17 @@ use big_brain::{pickers, prelude::*};
 #[test]
 fn steps() {
     println!("steps test");
-    App::build()
+    App::new()
         .add_plugins(MinimalPlugins)
         .add_plugin(BigBrainPlugin)
         .init_resource::<GlobalState>()
-        .add_startup_system(setup.system())
-        .add_system_to_stage(CoreStage::First, no_failure_score.system())
-        .add_system(action1.system())
-        .add_system(action2.system())
-        .add_system(exit_action.system())
-        .add_system(failure_action.system())
-        .add_system_to_stage(CoreStage::Last, last.system())
+        .add_startup_system(setup)
+        .add_system_to_stage(CoreStage::First, no_failure_score_system)
+        .add_system(action1_system)
+        .add_system(action2_system)
+        .add_system(exit_action_system)
+        .add_system(failure_action_system)
+        .add_system_to_stage(CoreStage::Last, last_system)
         .run();
     println!("end");
 }
@@ -38,7 +38,7 @@ impl ActionBuilder for Action1 {
     }
 }
 
-fn action1(mut query: Query<(&Actor, &mut ActionState), With<Action1>>) {
+fn action1_system(mut query: Query<(&Actor, &mut ActionState), With<Action1>>) {
     for (Actor(_actor), mut state) in query.iter_mut() {
         println!("action1 {:?}", state);
         if *state == ActionState::Requested {
@@ -60,7 +60,7 @@ impl ActionBuilder for Action2 {
     }
 }
 
-fn action2(mut query: Query<(&Actor, &mut ActionState), With<Action2>>) {
+fn action2_system(mut query: Query<(&Actor, &mut ActionState), With<Action2>>) {
     for (Actor(_actor), mut state) in query.iter_mut() {
         println!("action2 {:?}", state);
         if *state == ActionState::Requested {
@@ -82,7 +82,7 @@ impl ActionBuilder for ExitAction {
     }
 }
 
-fn exit_action(
+fn exit_action_system(
     mut query: Query<(&Actor, &mut ActionState), With<ExitAction>>,
     mut app_exit_events: EventWriter<AppExit>,
 ) {
@@ -97,7 +97,7 @@ fn exit_action(
     }
 }
 
-fn last() {
+fn last_system() {
     println!();
 }
 
@@ -111,7 +111,7 @@ impl ActionBuilder for FailureAction {
     }
 }
 
-fn failure_action(
+fn failure_action_system(
     mut query: Query<(&Actor, &mut ActionState), With<FailureAction>>,
     mut global_state: ResMut<GlobalState>,
 ) {
@@ -140,7 +140,7 @@ impl ScorerBuilder for NoFailureScore {
     }
 }
 
-fn no_failure_score(
+fn no_failure_score_system(
     mut query: Query<(&NoFailureScore, &mut Score)>,
     global_state: Res<GlobalState>,
 ) {
