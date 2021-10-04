@@ -51,7 +51,7 @@ impl Drink {
 #[derive(Debug, Clone)]
 pub struct DrinkBuilder;
 
-// All you need to implement heree is the `build()` method, which requires
+// All you need to implement here is the `build()` method, which requires
 // that you attach your actual component to the action Entity that was created
 // and configured for you.
 impl ActionBuilder for DrinkBuilder {
@@ -125,7 +125,7 @@ impl ScorerBuilder for ThirstyBuilder {
     }
 }
 
-// Looks familiar? It's a lot likee Actions!
+// Looks familiar? It's a lot like Actions!
 pub fn thirsty_scorer_system(
     thirsts: Query<&Thirst>,
     // Same dance with the Parent here, but now Big Brain has added a Score component!
@@ -165,9 +165,9 @@ fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugin(BigBrainPlugin)
-        .add_startup_system(init_entities.system())
-        .add_system(thirst_system.system())
-        .add_system(drink_action_system.system())
-        .add_system(thirsty_scorer_system.system())
+        .add_startup_system(init_entities)
+        .add_system(thirst_system)
+        .add_system(drink_action_system)
+        .add_system(thirsty_scorer_system)
         .run();
 }

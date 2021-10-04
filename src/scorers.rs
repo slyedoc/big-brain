@@ -14,7 +14,7 @@ use crate::{
 /**
 Score value between `0.0..=1.0` associated with a Scorer.
  */
-#[derive(Debug, Clone, Default)]
+#[derive(Component, Debug, Clone, Default)]
 pub struct Score(pub(crate) f32);
 
 impl Score {
@@ -80,7 +80,7 @@ pub trait ScorerBuilder: std::fmt::Debug + Sync + Send {
 /**
 Scorer that always returns the same, fixed score. Good for combining with things creatively!
  */
-#[derive(Debug, Clone)]
+#[derive(Component, Debug, Clone)]
 pub struct FixedScore(f32);
 
 impl FixedScore {
@@ -118,7 +118,7 @@ Thinker::build()
         MyAction::build());
 ```
  */
-#[derive(Debug)]
+#[derive(Component, Debug)]
 pub struct AllOrNothing {
     threshold: f32,
     scorers: Vec<ScorerEnt>,
@@ -204,7 +204,7 @@ Thinker::build()
         MyAction::build());
 ```
  */
-#[derive(Debug)]
+#[derive(Component,Debug)]
 pub struct SumOfScorers {
     threshold: f32,
     scorers: Vec<ScorerEnt>,
@@ -287,7 +287,7 @@ Thinker::build()
 ```
  */
 
-#[derive(Debug)]
+#[derive(Component,Debug)]
 pub struct WinningScorer {
     threshold: f32,
     scorers: Vec<ScorerEnt>,
@@ -382,7 +382,7 @@ Thinker::build()
         MyAction::build());
 ```
  */
-#[derive(Debug, Clone)]
+#[derive(Component,Debug, Clone)]
 pub struct EvaluatingScorer {
     scorer: ScorerEnt,
     evaluator: Arc<dyn Evaluator>,
